@@ -1,115 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="theme-color" content="#317EFB">
-  <link rel="shortcut icon" href="icons/icon-192x192.png" type="image/x-icon">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="theme-color" content="#317EFB" />
+    <link
+      rel="shortcut icon"
+      href="icons/icon-192x192.png"
+      type="image/x-icon"
+    />
 
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="styles.css">
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
 
-  <title>Budget Tracker</title>
-</head>
-<body>
-  <script>
-    const request = window.indexedDB.open("transactiondb");
+    <title>Budget Tracker</title>
+  </head>
+  <body>
+    <script>
+      const request = window.indexedDB.open("transactiondb");
 
-    // Create schema
-    request.onupgradeneeded = event => {
-      const db = event.target.result;
-      
-      // Creates an object store with a listID keypath that can be used to query on.
-      const transactionListStore = db.createObjectStore("TransactionList", {keyPath: "transactionID"});
-      // Creates a statusIndex that we can query on.
-      transactionListStore.createIndex("statusIndex", "status"); 
-    }
+      // Create schema
+      request.onupgradeneeded = (event) => {
+        const db = event.target.result;
 
-    // Opens a transaction, accesses the toDoList objectStore and statusIndex.
-    request.onsuccess = () => {
-      const db = request.result;
-      // access transaction object and can access to do list object store and then index, 28 "readwrite" allows to read and write the toDoList object store
-      const transaction = db.transaction(["TransactionList"], "readwrite");
-      const transactionListStore = transaction.objectStore("transactionList");
-      const statusIndex = transactionListStore.index("statusIndex");
-
-      // Adds data to our objectStore
-      transactionListStore.add({ transactionID: "1", status: "complete" });
-      transactionListStore.add({ transactionID: "2", status: "in-progress" });
-      transactionListStore.add({ transactionID: "3", status: "complete" });
-      transactionListStore.add({ transactionID: "4", status: "backlog" });
-     
-      // Return an item by keyPath
-      const getRequest = transactionListStore.get("1");
-      getRequest.onsuccess = () => {
-        console.log(getRequest.result);
+        // Creates an object store with a listID keypath that can be used to query on.
+        const transactionListStore = db.createObjectStore("TransactionList", {
+          keyPath: "transactionID",
+        });
+        // Creates a statusIndex that we can query on.
+        transactionListStore.createIndex("statusIndex", "status");
       };
 
-      // Return an item by index
-      const getRequestIdx = statusIndex.getAll("complete");
-      getRequestIdx.onsuccess = () => {
-        console.log(getRequestIdx.result); 
-      }; 
-    };
-
-  </script>
-  <div class="wrapper">
-    <div class="total">
-      <div class="total">Your total is: $<span id="total">0</span></div>
-    </div>
-
-    <div class="form">
-      <input type="text" id="t-name" placeholder="Name of transaction" />
-      <input type="number" min="0" id="t-amount" placeholder="Transaction amount" />
-      <button id="add-btn"><i class="fa fa-plus buttons"></i> Add Funds</button>
-      <button id="sub-btn"><i class="fa fa-minus"></i> Subtract Funds</button>
-      <p class="error"></p>
-    </div>
-
-    <div class="transactions">
-      <table>
-        <thead>
-          <th>Transaction</th>
-          <th>Amount</th>
-        </thead>
-        <tbody id="tbody">
-          
-        </tbody>
-      </table>
-    </div>
-    
-    <canvas id="myChart"></canvas>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-  <script src="index.js"></script>
-  <script>
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker.register("service-worker.js").then(reg => {
-          console.log("We found your service worker file!", reg);
-        });
-      });
-    }
-  </script>
-</body>
-</html>
-
-
-
-
-<!--  // Opens a transaction, accesses the toDoList objectStore and statusIndex.
+      // Opens a transaction, accesses the toDoList objectStore and statusIndex.
       request.onsuccess = () => {
         const db = request.result;
-        const transaction = db.transaction(["toDoList"], "readwrite");
-        const toDoListStore = transaction.objectStore("toDoList");
-        const statusIndex = toDoListStore.index("statusIndex"); -->
+        // access transaction object and can access to do list object store and then index, 28 "readwrite" allows to read and write the toDoList object store
+        const transaction = db.transaction(["TransactionList"], "readwrite");
+        const transactionListStore = transaction.objectStore("transactionList");
+        const statusIndex = transactionListStore.index("statusIndex");
 
-        <!-- 
+        // Adds data to our objectStore
+        transactionListStore.add({ transactionID: "1", status: "complete" });
+        transactionListStore.add({ transactionID: "2", status: "in-progress" });
+        transactionListStore.add({ transactionID: "3", status: "complete" });
+        transactionListStore.add({ transactionID: "4", status: "backlog" });
+
+        // Return an item by keyPath
+        const getRequest = transactionListStore.get("1");
+        getRequest.onsuccess = () => {
+          console.log(getRequest.result);
+        };
+
+        // Return an item by index
+        const getRequestIdx = statusIndex.getAll("complete");
+        getRequestIdx.onsuccess = () => {
+          console.log(getRequestIdx.result);
+        };
+      };
+
+      // Opens a transaction, accesses the transactionList objectStore and statusIndex.
+      request.onsuccess = () => {
+        const db = request.result;
+        const transaction = db.transaction(["transactionList"], "readwrite");
+        const transactionStore = transaction.objectStore("toDoList");
+        const statusIndex = transactionListStore.index("statusIndex");
+
         // Opens a Cursor request and iterates over the documents.
-        const getCursorRequest = toDoListStore.openCursor();
-        getCursorRequest.onsuccess = e => {
+        const getCursorRequest = transactionListStore.openCursor();
+        getCursorRequest.onsuccess = (e) => {
           const cursor = e.target.result;
           if (cursor) {
             console.log(cursor.value);
@@ -118,4 +80,51 @@
             console.log("No documents left!");
           }
         };
-      }; -->
+      };
+    </script>
+    <div class="wrapper">
+      <div class="total">
+        <div class="total">Your total is: $<span id="total">0</span></div>
+      </div>
+
+      <div class="form">
+        <input type="text" id="t-name" placeholder="Name of transaction" />
+        <input
+          type="number"
+          min="0"
+          id="t-amount"
+          placeholder="Transaction amount"
+        />
+        <button id="add-btn">
+          <i class="fa fa-plus buttons"></i> Add Funds
+        </button>
+        <button id="sub-btn"><i class="fa fa-minus"></i> Subtract Funds</button>
+        <p class="error"></p>
+      </div>
+
+      <div class="transactions">
+        <table>
+          <thead>
+            <th>Transaction</th>
+            <th>Amount</th>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+
+      <canvas id="myChart"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="index.js"></script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("service-worker.js").then((reg) => {
+            console.log("We found your service worker file!", reg);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
