@@ -15,32 +15,7 @@
     <title>Budget Tracker</title>
   </head>
   <body>
-    <!-- <script>
-      const request = window.indexedDB.open("transactiondb");
-
-      // Create schema
-      request.onupgradeneeded = (event) => {
-        const db = event.target.result;
-
-        // Creates an object store with a listID keypath that can be used to query on.
-        const transactionListStore = db.createObjectStore("transactionList", {
-          keyPath: "transactionID" 
-        });
-          
-        transactionListStore.createIndex("transactionName", "transactionName");
-        transactionListStore.createIndex("transactionAmount", "transactionAmount");
-      };
-
-      // Opens a transaction, accesses the transactionList objectStore and statusIndex.
-      request.onsuccess = () => {
-        const db = request.result;
-        // access transaction object and can access to do list object store and then index, "readwrite" allows to read and write the transactionList object store
-        const transaction = db.transaction(["transactionList"], "readwrite");
-        const transactionListStore = transaction.objectStore("transactionList");
-        // const transactionIndex = transactionListStore.index("transactionIndex");
-      };
-      
-    </script> -->
+   
     <div class="wrapper">
       <div class="total">
         <div class="total">Your total is: $<span id="total">0</span></div>
