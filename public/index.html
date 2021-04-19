@@ -38,23 +38,23 @@
         const transactionListStore = transaction.objectStore("transactionList");
         const statusIndex = transactionListStore.index("statusIndex");
 
-        // Adds data to our objectStore
-        transactionListStore.add({ transactionID: "1", status: "complete" });
-        transactionListStore.add({ transactionID: "2", status: "in-progress" });
-        transactionListStore.add({ transactionID: "3", status: "complete" });
-        transactionListStore.add({ transactionID: "4", status: "backlog" });
+      //   // Adds data to our objectStore
+      //   transactionListStore.add({ transactionID: "1", status: "complete" });
+      //   transactionListStore.add({ transactionID: "2", status: "in-progress" });
+      //   transactionListStore.add({ transactionID: "3", status: "complete" });
+      //   transactionListStore.add({ transactionID: "4", status: "backlog" });
 
-        // Return an item by keyPath
-        const getRequest = transactionListStore.get("1");
-        getRequest.onsuccess = () => {
-          console.log(getRequest.result);
-        };
+      //   // Return an item by keyPath
+      //   const getRequest = transactionListStore.get("1");
+      //   getRequest.onsuccess = () => {
+      //     console.log(getRequest.result);
+      //   };
 
-        // Return an item by index
-        const getRequestIdx = statusIndex.getAll("complete");
-        getRequestIdx.onsuccess = () => {
-          console.log(getRequestIdx.result);
-        };
+      //   // Return an item by index
+      //   const getRequestIdx = statusIndex.getAll("complete");
+      //   getRequestIdx.onsuccess = () => {
+      //     console.log(getRequestIdx.result);
+      //   };
       };
     </script>
     <div class="wrapper">
